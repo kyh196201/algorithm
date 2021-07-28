@@ -1,8 +1,8 @@
 (function () {
   class Node {
-    constructor(count = 0, value = '') {
+    constructor(count = 0, character = '') {
       this.count = count;
-      this.value = value;
+      this.character = character;
       this.child = {};
       this.isEnd = false;
     }
