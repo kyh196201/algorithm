@@ -31,5 +31,6 @@ module.exports = {
     ],
     'no-unused-vars': 'error',
     'max-classes-per-file': 'off',
+    'no-console': 'off',
   },
 };
