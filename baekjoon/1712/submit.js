@@ -25,11 +25,19 @@ function solution(a, b, c) {
   return result;
 }
 
+function solution2(a, b, c) {
+  if (c - b <= 0) return -1;
+
+  const x = a / (c - b);
+
+  return Math.floor(x) + 1;
+}
+
 let result;
 
 rl.on('line', line => {
   const input = line.split(' ').map(l => Number(l));
-  result = solution(...input);
+  result = solution2(...input);
   rl.close();
 }).on('close', () => {
   console.log(result);
