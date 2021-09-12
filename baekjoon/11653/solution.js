@@ -22,8 +22,23 @@ function solution(num) {
   console.log(divisors.join('\n'));
 }
 
+function solution2(num) {
+  for (let i = 2, s = Math.sqrt(num); i <= s; i++) {
+    while (num % i === 0) {
+      num /= i;
+      console.log(i);
+    }
+  }
+
+  if (num !== 1) {
+    console.log(num);
+  }
+}
+
 const N = 9991;
 
-if (N > 1) {
-  solution(N);
-}
+// if (N > 1) {
+//   solution(N);
+// }
+
+solution2(N);
