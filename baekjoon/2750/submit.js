@@ -46,6 +46,10 @@ const bubbleSort = arr => {
   return sorted;
 };
 
+const insertionSort = arr => {
+  //   여기에 삽입정렬 코드 작성
+};
+
 rl.on('line', line => {
   input.push(line);
 }).on('close', () => {
