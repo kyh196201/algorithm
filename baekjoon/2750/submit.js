@@ -46,15 +46,31 @@ const bubbleSort = arr => {
   return sorted;
 };
 
+// 삽입 정렬
 const insertionSort = arr => {
-  //   여기에 삽입정렬 코드 작성
+  const copied = arr.slice();
+  const arrLength = copied.length;
+
+  for (let i = 1; i < arrLength; i += 1) {
+    const temp = copied[i];
+    let j = i - 1;
+
+    for (j; j >= 0 && copied[j] > temp; j -= 1) {
+      copied[j + 1] = copied[j];
+    }
+
+    copied[j + 1] = temp;
+  }
+
+  return copied;
 };
 
 rl.on('line', line => {
   input.push(line);
 }).on('close', () => {
   const origin = input.slice(1).map(v => +v);
-  const sorted = bubbleSort(origin);
+  // const sorted = bubbleSort(origin);
+  const sorted = insertionSort(origin);
 
   console.log(sorted.join('\n'));
 
