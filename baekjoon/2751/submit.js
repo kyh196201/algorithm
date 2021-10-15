@@ -59,9 +59,15 @@ rl.on('line', line => {
   input.push(line);
 }).on('close', () => {
   const origin = input.slice(1).map(v => +v);
+  // 1. 병합 정렬을 이용한 풀이
   const sorted = mergeSort(origin);
 
+  // 2. 자바스크립트 내장 함수를 이용한 풀이
+  const sortedB = origin.sort((a, b) => a - b);
+
   console.log(sorted.join('\n'));
+
+  console.log(sortedB.join('\n'));
 
   process.exit();
 });
