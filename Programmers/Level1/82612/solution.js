@@ -6,7 +6,7 @@ function solution(price, money, count) {
   const diff = totalAmount - money;
 
   // 부족한 금액
-  return diff > 0 ? diff : 0;
+  return diff > 0 ? diff : 0; // Math.max(diff, 0);
 }
 
 console.log(solution(3, 20, 4)); // 10
