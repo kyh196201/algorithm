@@ -3,7 +3,7 @@
  *
  * - 구해야하는 것: 완주하지 못한 선수 = completion에 없는 participant
  *
- * - 간단하게 생각해보기
+ * - 풀이
  *
  * 	-	완주자를 순회하면서 map을 만든다. map의 key는 완주자의 이름 value는 숫자 (1로 시작, 이미 존재하면 + 1)
  *
@@ -17,13 +17,23 @@
 function solution(participant, completion) {
   const completions = new Map();
 
-  completion.forEach(v => {
-    const count = completions.get(v) || 0;
+  completion.forEach(name => {
+    const count = completions.get(name) || 0;
 
-    completions.set(v, count + 1);
+    completions.set(name, count + 1);
   });
 
-  return 'leo';
+  const result = participant.find(name => {
+    const count = completions.get(name);
+
+    if (!count) return true;
+
+    completions.set(name, count - 1);
+
+    return false;
+  });
+
+  return result;
 }
 
 describe('완주하지 못한 선수', () => {
@@ -41,6 +51,13 @@ describe('완주하지 못한 선수', () => {
       solution(
         ['mislav', 'stanko', 'mislav', 'ana'],
         ['stanko', 'mislav', 'ana'],
+      ),
+    ).toBe('mislav');
+
+    expect(
+      solution(
+        ['mislav', 'stanko', 'mislav', 'ana', 'mislav'],
+        ['stanko', 'mislav', 'ana', 'mislav'],
       ),
     ).toBe('mislav');
   });
