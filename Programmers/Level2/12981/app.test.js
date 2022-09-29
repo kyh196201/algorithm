@@ -28,6 +28,7 @@ function solution(numberOfPlayers = 2, words = []) {
   const usedWords = new Set();
 
   const failIndex = words.findIndex((word, index) => {
+    // 첫 단어일 경우
     if (index === 0) {
       usedWords.add(word);
       return false;
@@ -46,15 +47,18 @@ function solution(numberOfPlayers = 2, words = []) {
       return true;
     }
 
+    usedWords.add(word);
     return false;
   });
 
   if (failIndex < 0) return [0, 0];
 
-  const playerNumber = (failIndex % numberOfPlayers) + 1;
-  const playerTurn = Math.floor(failIndex / numberOfPlayers) + 1;
+  const player = {
+    number: (failIndex % numberOfPlayers) + 1,
+    turn: Math.floor(failIndex / numberOfPlayers) + 1,
+  };
 
-  return [playerNumber, playerTurn];
+  return [player.number, player.turn];
 }
 
 describe('영어 끝말잇기', () => {
@@ -110,5 +114,19 @@ describe('영어 끝말잇기', () => {
     const numberOfPlayers = 2;
 
     expect(solution(numberOfPlayers, words)).toEqual([2, 1]);
+  });
+
+  it('test19-1', () => {
+    const result = solution(2, ['land', 'dream', 'mom', 'mom', 'ror']);
+    const expected = [2, 2];
+
+    expect(result).toEqual(expected);
+  });
+
+  it('test19-2', () => {
+    const result = solution(2, ['land', 'dream', 'mom', 'mom']);
+    const expected = [2, 2];
+
+    expect(result).toEqual(expected);
   });
 });
