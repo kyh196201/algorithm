@@ -21,6 +21,9 @@
  * - 모든 문자를 제거했으면 1을 리턴한다.
  *
  * 반성
+ *
+ * - 시간 초과 발생, 질문하기에서 본 결과 입력이 100만 이상일 경우 n이나 nlogn의 풀이가 적합하다고함
+ * - replace를 이용한 풀이 대신 스택을 이용한 풀이 시도
  */
 
 const patterns = [
@@ -52,14 +55,17 @@ const patterns = [
   'zz',
 ];
 
-function solution(s = '') {
-  if (s.length % 2 === 1) return 0;
+const regex = new RegExp(patterns.join('|', 'g'));
 
-  // while (s.length) {
+function solution(str = '') {
+  // 홀수일 경우
+  if (str.length % 2 === 1) return 0;
 
-  // }
+  while (str.match(regex)) {
+    str = str.replace(regex, '');
+  }
 
-  return 1;
+  return str.length > 0 ? 0 : 1;
 }
 
 describe('짝지어 제거하기', () => {
@@ -67,5 +73,7 @@ describe('짝지어 제거하기', () => {
     expect(solution('aaa')).toBe(0);
 
     expect(solution('baabaa')).toBe(1);
+
+    expect(solution('cdcd')).toBe(0);
   });
 });
