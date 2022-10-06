@@ -18,6 +18,8 @@
  * - 들어갈 수 있는 boat가 없을 경우 boat에 값을 push
  *
  * 반성
+ * - 기존의 풀이 방법을 버리고 투 포인터 알고리즘을 사용해서 풀이했다.
+ * - 투 포인턴 알고리즘은 이 글을 참고함(https://velog.io/@9ummy/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%ED%88%AC-%ED%8F%AC%EC%9D%B8%ED%84%B0-%EA%B5%AC%EA%B0%84-%ED%95%A9-JavaScript)
  */
 
 function sortDescending(array = []) {
@@ -29,36 +31,35 @@ test('test', () => {
 });
 
 function solution(people = [], limit = 40) {
-  if (people.length === 1) return 1;
+  let answer = 0;
+  let sum = 0;
+  let end = people.length - 1;
+  people = sortDescending(people);
 
-  const peopleDescending = sortDescending(people);
-
-  const 절반초과인사람들 = [];
-  const 절반이하인사람들 = [];
-
-  peopleDescending.forEach(weight => {
-    if (weight > limit / 2) {
-      절반초과인사람들.push(weight);
-    } else {
-      절반이하인사람들.push(weight);
+  // 양 끝 점에서 시작
+  for (let start = 0; start < people.length; start += 1) {
+    // >=가 아닌 이유는 원소의 개수가 홀수일 경우 start, end가 같아지는 상황이 발생하기 때문!
+    if (start > end) {
+      break;
     }
-  });
 
-  절반이하인사람들.forEach(weight => {
-    const 탑승가능 = 절반초과인사람들.some((value, index) => {
-      if (value + weight <= limit) {
-        절반초과인사람들[index] += weight;
+    // 처음 시작점의 값을 합에 저장
+    sum = people[start];
 
-        return true;
-      }
+    // 합이 최대값보다 커지거나 끝점이 시작점과 같아지면 while 종료
+    while (sum <= limit && start < end) {
+      sum += people[end];
+      end -= 1;
+    }
+    answer += 1;
 
-      return false;
-    });
+    // 만약 합이 최대값보다 커졌을 경우 마지막으로 더한 사람은 보트에 태울 수 없으므로 다시 뒤로 한칸 이동해야한다.
+    if (sum > limit) {
+      end += 1;
+    }
+  }
 
-    if (!탑승가능) 절반초과인사람들.push(weight);
-  });
-
-  return 절반초과인사람들.length;
+  return answer;
 }
 
 describe('구명보트', () => {
