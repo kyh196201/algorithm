@@ -17,6 +17,7 @@
  * 반성
  */
 
+// 참고: https://namu.wiki/w/%EC%86%8C%EC%9D%B8%EC%88%98%EB%B6%84%ED%95%B4#s-2.1
 function primeFactorization(number = 1) {
   if (number <= 2) {
     return [number];
