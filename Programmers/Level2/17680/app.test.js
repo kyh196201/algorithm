@@ -63,10 +63,10 @@ class LRU {
   }
 }
 
-function solution(cacheSize = 0, cities = []) {
-  const MISS = 5;
-  const HIT = 1;
+const MISS = 5;
+const HIT = 1;
 
+function solution(cacheSize = 0, cities = []) {
   if (!cacheSize) {
     return MISS * cities.length;
   }
@@ -92,6 +92,46 @@ function solution(cacheSize = 0, cities = []) {
   return runTime;
 }
 
+function solution2(cacheSize = 0, cities = []) {
+  if (!cacheSize) {
+    return MISS * cities.length;
+  }
+
+  let runTime = 0;
+
+  const cache = [];
+
+  cities.forEach(city => {
+    const capitalizedCity = city.toUpperCase();
+
+    const index = cache.indexOf(capitalizedCity);
+
+    // miss
+    if (index < 0) {
+      runTime += MISS;
+
+      // 도시 추가
+      const size = cache.unshift(capitalizedCity);
+
+      // 크기가 초과되었을 경우
+      if (size > cacheSize) {
+        cache.pop();
+      }
+
+      return;
+    }
+
+    // hit
+    runTime += HIT;
+    // 기존 위치에서 제거
+    cache.splice(index, 1);
+    // 제일 앞에 추가
+    cache.unshift(capitalizedCity);
+  });
+
+  return runTime;
+}
+
 describe('캐시', () => {
   it('test', () => {
     const cities = ['Jeju', 'Pangyo', 'Seoul', 'NewYork', 'LA'];
@@ -100,5 +140,8 @@ describe('캐시', () => {
 
     const cities2 = ['Jeju', 'Pangyo', 'NewYork', 'newyork'];
     expect(solution(2, cities2)).toBe(16);
+
+    expect(solution2(0, cities)).toBe(25);
+    expect(solution2(2, cities2)).toBe(16);
   });
 });
