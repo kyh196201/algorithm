@@ -41,6 +41,21 @@ function solution(t, p) {
   return count;
 }
 
+function solution2(t, p) {
+  const size = p.length;
+  let count = 0;
+
+  for (let i = 0; i <= t.length - size; i += 1) {
+    const slice = t.substring(i, i + size);
+
+    if (parseInt(slice) <= p) {
+      count += 1;
+    }
+  }
+
+  return count;
+}
+
 describe('getSubstrings()', () => {
   it('문자열에서 길이가 n인 모든 부분 문자열을 구한다.', () => {
     expect(getSubstrings('3141592', 3)).toEqual([
@@ -65,5 +80,7 @@ describe('크기가 작은 부분 문자열', () => {
   it('test', () => {
     expect(solution('3141592', '271')).toBe(2);
     expect(solution('500220839878', '7')).toBe(8);
+    expect(solution2('3141592', '271')).toBe(2);
+    expect(solution2('500220839878', '7')).toBe(8);
   });
 });
