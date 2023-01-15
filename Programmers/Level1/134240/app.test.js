@@ -32,9 +32,31 @@ function solution(foods = []) {
   return `${foodStrings.join('')}0${foodStrings.reverse().join('')}`;
 }
 
+function solution2(foods = []) {
+  const player1 = [];
+  const player2 = [];
+
+  foods.forEach((food, index) => {
+    const repeatCount = Math.floor(food / 2);
+
+    if (repeatCount < 1) return;
+
+    for (let i = 0; i < repeatCount; i += 1) {
+      player1.push(index);
+      player2.unshift(index);
+    }
+  });
+
+  return `${player1.join('')}0${player2.join('')}`;
+}
+
 describe('푸드 파이트 대회', () => {
   it('test', () => {
     expect(solution([1, 3, 4, 6])).toBe('1223330333221');
     expect(solution([1, 7, 1, 2])).toBe('111303111');
+
+    // solution2
+    expect(solution2([1, 3, 4, 6])).toBe('1223330333221');
+    expect(solution2([1, 7, 1, 2])).toBe('111303111');
   });
 });
