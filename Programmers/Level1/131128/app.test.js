@@ -26,20 +26,26 @@
  */
 
 function solution(x = '', y = '') {
+  // 0 ~ 9 숫자가 x, y와 나오는 개수를 저장하기 위한 배열
   const counts = [];
 
   for (let i = 0; i < 10; i += 1) {
     const regex = new RegExp(`${i}`, 'g');
 
+    // x, y에서 i 숫자의 개수를 센다.
     const countX = x.match(regex)?.length || 0;
     const countY = y.match(regex)?.length || 0;
 
+    // 공통으로 나타나는 숫자중에서 서로 짝지을 수 있는 숫자만 짝꿍이므로
+    // 나타나는 숫자의 개수 중에서 최솟값을 배열에 저장한다.
     counts.push(Math.min(countX, countY));
   }
 
   let result = '';
 
+  // 가장 큰 정수를 구해야하므로 9번 인덱스에서 0번인덱스 순으로 문자열을 완성
   for (let index = counts.length - 1; index >= 0; index -= 1) {
+    // index가 나타나는 개수만큼 문자열에 추가함
     result += index.toString().repeat(counts[index]);
   }
 
@@ -47,6 +53,7 @@ function solution(x = '', y = '') {
     return '-1';
   }
 
+  // '00'일 경우'0'으로 리턴하기위한 조건
   return result.charAt(0) === '0' ? '0' : result;
 }
 
