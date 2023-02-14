@@ -27,12 +27,12 @@ function solution(string = '') {
 
   if (string.length <= 2) return 1;
 
-  const first = string.charAt(0);
-  const same = [];
+  const [first, ...rest] = string.split('');
+  const same = [first];
   const notSame = [];
 
-  for (let i = 0; i < string.length; i += 1) {
-    const char = string.charAt(i);
+  for (let i = 0; i < rest.length; i += 1) {
+    const char = rest[i];
 
     if (char === first) {
       same.push(char);
