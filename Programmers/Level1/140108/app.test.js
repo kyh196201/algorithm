@@ -22,10 +22,10 @@
  *  - 반복문이 그대로 종료했을 경우
  *    - 분해된 문자열 = ['원본 문자열', '']
  */
-function solution(string = '') {
-  if (!string) return 0;
+function solution(string = '', count = 0) {
+  if (!string) return count;
 
-  if (string.length <= 2) return 1;
+  if (string.length <= 2) return count + 1;
 
   const [first, ...rest] = string.split('');
   const same = [first];
@@ -50,7 +50,7 @@ function solution(string = '') {
   // substrings = ['ba', 'nana']
   const slicePoint = same.length + notSame.length;
 
-  return 1 + solution(string.substring(slicePoint));
+  return solution(string.substring(slicePoint), count + 1);
 }
 
 describe('문자열 나누기', () => {
