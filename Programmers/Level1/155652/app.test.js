@@ -10,10 +10,6 @@
 function convert(word = 'a', alphabets = [], index = 1) {
   const nextIndex = alphabets.indexOf(word) + index;
 
-  if (nextIndex <= alphabets.length - 1) {
-    return alphabets[nextIndex];
-  }
-
   const mod = nextIndex % alphabets.length;
 
   return alphabets[mod];
