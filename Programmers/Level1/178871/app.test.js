@@ -13,39 +13,40 @@
  * 계획
  */
 
+function swap(players, rank1, rank2) {
+  const temp = players[rank1];
+  players[rank1] = players[rank2];
+  players[rank2] = temp;
+}
+
 function solution(players = [], callings = []) {
-  const playerPositions = players.reduce(
-    (positions, player, index) => ({
-      ...positions,
-      [player]: index,
-    }),
-    {},
-  );
+  // 처음 등수
+  const ranks = {};
 
-  callings.forEach(called => {
-    const currentPos = playerPositions[called];
-    const nextPos = currentPos - 1;
-
-    const entries = Object.entries(playerPositions);
-
-    for (let i = 0; i < entries.length; i += 1) {
-      const [player, position] = entries[i];
-
-      if (position === nextPos) {
-        playerPositions[player] = currentPos;
-
-        break;
-      }
-    }
-
-    playerPositions[called] = nextPos;
+  players.forEach((player, rank) => {
+    ranks[player] = rank;
   });
 
-  const result = Object.entries(playerPositions)
-    .sort((a, b) => a[1] - b[1])
-    .map(entry => entry[0]);
+  // 시간 초과
+  // const ranks = players.reduce(
+  //   (positions, player, index) => ({
+  //     ...positions,
+  //     [player]: index,
+  //   }),
+  //   {},
+  // );
 
-  return result;
+  callings.forEach(called => {
+    const rank = ranks[called];
+    const nextRank = rank - 1;
+
+    ranks[called] = nextRank;
+    ranks[players[nextRank]] = rank;
+
+    swap(players, nextRank, rank);
+  });
+
+  return players;
 }
 
 describe('달리기 경주', () => {
