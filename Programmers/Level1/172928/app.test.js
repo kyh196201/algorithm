@@ -28,6 +28,42 @@
  * - 이동 불가능 여부 확인
  * - 이동 불가능할 경우 이동하지 않음
  */
+function getStartPos(park) {
+  for (let y = 0; y < park.length; y += 1) {
+    const x = park[y].indexOf('S');
+
+    if (x >= 0) {
+      return {x, y};
+    }
+  }
+
+  return {x: 0, y: 0};
+}
+
+function isInBound(pos, width, height) {
+  const {x, y} = pos;
+
+  return !(x < 0 || x > width - 1 || y < 0 || y > height - 1);
+}
+
+function checkObstacle(park, pos, nextPos) {
+  const direction = pos.x === nextPos.x ? 'V' : 'H';
+  const [start, end] =
+    direction === 'V'
+      ? [Math.min(pos.y, nextPos.y), Math.max(pos.y, nextPos.y)]
+      : [Math.min(pos.x, nextPos.x), Math.max(pos.x, nextPos.x)];
+
+  for (let i = start; i <= end; i += 1) {
+    if (
+      (direction === 'V' && park[i][pos.x] === 'X') ||
+      (direction === 'H' && park[pos.y][i] === 'X')
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function solution(park = [], routes = []) {
   const directionFns = {
     E: (pos, distance) => ({x: pos.x + distance, y: pos.y}),
@@ -36,25 +72,10 @@ function solution(park = [], routes = []) {
     N: (pos, distance) => ({x: pos.x, y: pos.y - distance}),
   };
 
-  const pos = {
-    x: 0,
-    y: 0,
-  };
-
+  // find start position
+  const pos = getStartPos(park);
   const height = park.length;
   const width = park[0].length;
-
-  // find start position
-  for (let y = 0; y < park.length; y += 1) {
-    const x = park[y].indexOf('S');
-
-    if (x >= 0) {
-      pos.x = x;
-      pos.y = y;
-
-      break;
-    }
-  }
 
   // move
   routes.forEach(route => {
@@ -64,52 +85,12 @@ function solution(park = [], routes = []) {
 
     const {x, y} = nextPos;
 
-    if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
+    if (!isInBound(nextPos, width, height)) {
       return;
     }
 
-    if (direction === 'E') {
-      const road = park[pos.y];
-
-      for (let index = pos.x; index <= x; index += 1) {
-        // 장애물
-        if (road[index] === 'X') {
-          return;
-        }
-      }
-    }
-
-    if (direction === 'W') {
-      const road = park[pos.y];
-
-      for (let index = pos.x; index >= x; index -= 1) {
-        // 장애물
-        if (road[index] === 'X') {
-          return;
-        }
-      }
-    }
-
-    if (direction === 'N') {
-      for (let index = pos.y; index >= y; index -= 1) {
-        const road = park[index];
-
-        // 장애물
-        if (road[x] === 'X') {
-          return;
-        }
-      }
-    }
-
-    if (direction === 'S') {
-      for (let index = pos.y; index <= y; index += 1) {
-        const road = park[index];
-
-        // 장애물
-        if (road[x] === 'X') {
-          return;
-        }
-      }
+    if (checkObstacle(park, pos, nextPos)) {
+      return;
     }
 
     pos.x = x;
