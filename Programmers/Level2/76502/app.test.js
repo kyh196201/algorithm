@@ -14,6 +14,11 @@
  */
 function isValid(s = '') {
   const stack = [];
+  const brakets = {
+    ']': '[',
+    '}': '{',
+    ')': '(',
+  };
 
   for (let i = 0; i < s.length; i += 1) {
     const char = s[i];
@@ -24,9 +29,9 @@ function isValid(s = '') {
       const top = stack[stack.length - 1];
 
       if (
-        (top === '[' && char === ']') ||
-        (top === '{' && char === '}') ||
-        (top === '(' && char === ')')
+        (top === brakets[char] && char === ']') ||
+        (top === brakets[char] && char === '}') ||
+        (top === brakets[char] && char === ')')
       ) {
         stack.pop();
       } else {
@@ -39,13 +44,19 @@ function isValid(s = '') {
 }
 
 function solution(s = '') {
+  // 문자열의 길이가 홀수일 경우 절대 만족할 수 없으므로 return
+  // 한 번 거르면 좋다
+  if (s.length % 2 === 1) {
+    return 0;
+  }
+
   let count = 0;
 
   for (let i = 0; i < s.length; i += 1) {
     // i칸 씩 회전
-    const str = s.slice(i) + s.slice(0, i);
+    const rotated = s.slice(i) + s.slice(0, i);
 
-    if (isValid(str)) {
+    if (isValid(rotated)) {
       count += 1;
     }
   }
