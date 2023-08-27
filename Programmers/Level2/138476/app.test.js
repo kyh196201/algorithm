@@ -21,24 +21,19 @@ function solution(k = 1, tangerines = []) {
   }
 
   // 크기 별 개수 저장
-  const countMap = new Map();
+  const counts = {};
   let count = 0;
 
   for (let i = 0; i < tangerines.length; i += 1) {
     const tangerine = tangerines[i];
 
-    const current = countMap.get(tangerine) ?? 0;
-    countMap.set(tangerine, current + 1);
+    counts[tangerine] = (counts[tangerine] ?? 0) + 1;
   }
 
-  let uniqueTangerines = [...new Set(tangerines)];
+  const countArr = Object.values(counts).sort((a, b) => b - a);
 
-  uniqueTangerines = uniqueTangerines.sort(
-    (a, b) => countMap.get(b) - countMap.get(a),
-  );
-
-  for (let j = 0; j < uniqueTangerines.length; j += 1) {
-    k -= countMap.get(uniqueTangerines[j]);
+  for (let j = 0; j < countArr.length; j += 1) {
+    k -= countArr[j];
     count += 1;
 
     if (k <= 0) break;
