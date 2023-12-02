@@ -34,5 +34,6 @@ module.exports = {
     'max-classes-per-file': 'off',
     'no-console': 'off',
     'no-param-reassign': 'off',
+    'no-plusplus': 'off',
   },
 };
