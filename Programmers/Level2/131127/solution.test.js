@@ -11,32 +11,42 @@
  *
  * 반성
  */
-
+// https://school.programmers.co.kr/learn/courses/30/lessons/131127
 function solution(wants, numbers, discounts) {
   let answer = 0;
+  const wantMap = new Map();
 
   for (let i = 0; i <= discounts.length - 10; i++) {
-    const slice = discounts.slice(i, i + 10).join(',');
-
-    const canBuy = wants.every((want, index) => {
-      const regex = new RegExp(want, 'g');
-
-      // slice 배열 안에 want가 몇개 들어 있는지
-      const count = (slice.match(regex) || []).length;
-
-      return count === numbers[index];
+    wants.forEach((want, index) => {
+      // 원하는 제품 : 구매할 개수
+      wantMap.set(want, numbers[index]);
     });
+
+    for (let j = i; j < i + 10; j++) {
+      const discount = discounts[j];
+
+      if (wantMap.has(discount)) {
+        wantMap.set(discount, wantMap.get(discount) - 1);
+      } else {
+        break;
+      }
+    }
+
+    // 원하는 제품을 모두 구매했을 경우
+    const canBuy = Array.from(wantMap.values()).every(count => count === 0);
 
     if (canBuy) {
       answer += 1;
     }
+
+    wantMap.clear();
   }
 
   return answer;
 }
 
-describe('올바른 괄호', () => {
-  it.only('test1', () => {
+describe('할인 행사', () => {
+  it('test1', () => {
     const want = ['banana', 'apple', 'rice', 'pork', 'pot'];
     const number = [3, 2, 2, 2, 1];
     const discount = [
