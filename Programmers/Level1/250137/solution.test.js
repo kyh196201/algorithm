@@ -22,28 +22,28 @@
  */
 
 function solution(bandage = [], health = 1, attacks = []) {
-  const maxHealth = health;
-  health -= attacks[0][1];
+  let currentHealth = health;
+  let prevTime = 0;
 
-  for (let i = 1; i < attacks.length; i++) {
-    const att = attacks[i];
-
-    // 회복
-    const prevAtt = attacks[i - 1];
+  for (let i = 0; i < attacks.length; i++) {
+    const [attackTime, damage] = attacks[i];
     // 회복할 수 있는 시간
-    const time = att[0] - prevAtt[0] - 1;
-    // 회복량
-    const heal = time * bandage[1] + Math.floor(time / bandage[0]) * bandage[2];
-    health = Math.min(health + heal, maxHealth);
+    const time = attackTime - prevTime - 1;
+    currentHealth +=
+      time * bandage[1] + Math.floor(time / bandage[0]) * bandage[2];
+    if (currentHealth > health) {
+      currentHealth = health;
+    }
 
-    // 공격
-    health -= att[1];
-    if (health <= 0) {
+    currentHealth -= damage;
+    if (currentHealth < 0) {
       return -1;
     }
+
+    prevTime = attackTime;
   }
 
-  return health > 0 ? health : -1;
+  return currentHealth > 0 ? currentHealth : -1;
 }
 
 describe('[PCCP 기출문제] 1번 / 붕대 감기', () => {
