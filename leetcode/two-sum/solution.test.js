@@ -56,9 +56,38 @@ function twoPointer(nums, target) {
   return [];
 }
 
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+function hashmap(nums, target) {
+  /**
+   * hashmap을 준비 hashmap에는 숫자와 해당하는 인덱스를 저장
+   * 숫자를 하나씩 탐색
+   *  - complement = target - 현재 숫자
+   *  - hashmap에 complement가 있을 경우 [hashmap[complement], 현재 인덱스] 반환
+   *  - complement가 없을 경우 hashmap에 현재 숫자에 해당하는 인덱스를 기록
+   */
+  const map = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+
+    map.set(nums[i], i);
+  }
+
+  return [];
+}
+
 describe('two-sum', () => {
   it('test', () => {
     expect(twoSum([2, 7, 11, 15], 9)).toEqual([0, 1]);
     expect(twoPointer([2, 7, 11, 15], 9)).toEqual([0, 1]);
+    expect(hashmap([2, 7, 11, 15], 9)).toEqual([0, 1]);
   });
 });
