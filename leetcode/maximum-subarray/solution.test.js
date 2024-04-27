@@ -4,10 +4,18 @@
  * 주어지는 것
  *
  * 구해야하는 것
+ * - 합이 최대가 되는 subarray을 구하고, 총 합을 리턴
  *
  * 조건
+ * - 1 <= nums.length <= 10^5
+ * - 10^4 <= nums[i] <= 10^4
  *
  * 계획
+ * - 카데인 알고리즘
+ * - (0 ~ i) 까지 존재하는 subarray들의 합 중에서 최대 값은 (0 ~ i-1)에서 구한 최대 값에 i번째 숫자를 더한 값과 i번째 숫자 중에서 더 큰 값과 같다.
+ * - 이를 수식으로 표현하면 다음과 같다. max = Math.max(subarray(i - 1) + nums[i], nums[i])
+ * - i를 1부터 마지막 인덱스까지 탐색하면서 각 인덱스마다 subarray의 최대값을 비교해서 가장 큰 값을 구하면 된다.
+ * - max와 answer 변수에 nums[0]을 할당하고 시작할 수 있기 때문에 i를 1부터 탐색하면 된다.
  *
  * 반성
  */
@@ -17,21 +25,18 @@
  * @return {number}
  */
 function bruteForce(nums) {
-  let max = -Infinity;
-  const len = nums.length;
+  let answer = -Infinity;
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < nums.length; i++) {
     let sum = 0;
 
-    for (let j = i; j < len; j++) {
+    for (let j = i; j < nums.length; j++) {
       sum += nums[j];
-      if (sum > max) {
-        max = sum;
-      }
+      if (sum > answer) answer = sum;
     }
   }
 
-  return max;
+  return answer;
 }
 
 /**
@@ -39,24 +44,21 @@ function bruteForce(nums) {
  * @return {number}
  */
 function solution(nums) {
-  let curMax = nums[0];
-  let maxTillNow = nums[0];
+  let max = nums[0];
+  let answer = nums[0];
 
   for (let i = 1; i < nums.length; i++) {
-    // curMax는 startIndex: 0, endIndex: i 까지 가질 수 있는 모든 부분 배열의 최댓값을 저장
-    // 즉, i까지의 최대 부분 합
-    // i 번째의 부분 합의 최댓값 = i - 1번째의 부분 합의 최댓값과 nums[i] 중에 더 큰 값
-    curMax = Math.max(nums[i], nums[i] + curMax);
-
-    // maxTillNow는 현재까지의 최대 부분 합
-    maxTillNow = Math.max(curMax, maxTillNow);
+    max = Math.max(max + nums[i], nums[i]);
+    if (max > answer) {
+      answer = max;
+    }
   }
 
-  return maxTillNow;
+  return answer;
 }
 
 describe('maximum-subarray', () => {
-  it('brute force', () => {
+  it.only('brute force', () => {
     expect(bruteForce([-2, 1, -3, 4, -1, 2, 1, -5, 4])).toBe(6);
     expect(bruteForce([1])).toBe(1);
     expect(bruteForce([5, 4, -1, 7, 8])).toBe(23);
