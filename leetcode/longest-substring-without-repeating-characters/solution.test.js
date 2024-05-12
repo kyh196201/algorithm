@@ -54,6 +54,17 @@ function solution(s) {
 }
 
 /**
+ * 이해
+ *
+ * 주어지는 것
+ *
+ * 구해야하는 것
+ * - 최대 길이를 가지는 연속되는 문자가 없는 substring를 찾고, 그 길이를 반환
+ *
+ * 조건
+ * - 0 <= s.length <= 5 * 10^4
+ *
+ * 계획
  * - 한 문자 씩 검사
  * - 중복되는 문자 검사
  * 	- 중복되는 문자가 없을 경우
@@ -62,6 +73,9 @@ function solution(s) {
  * 		- 현재까지 저장된 substring에서 중복되는 문자의 index를 찾음
  * 		- 찾은 index 이후로 문자열을 자르고, 현재 문자를 더한 새로운 substring 생성
  * 		- 최대 substring의 길이와 비교 더 큰 값을 저장
+ *
+ * 반성
+ * - s.length가 0 또는 1이면 그대로 s.length를 반환하면 된다
  */
 
 /**
@@ -69,8 +83,8 @@ function solution(s) {
  * @return {number}
  */
 function solution2(s) {
-  if (s.length === 0) {
-    return 0;
+  if (s.length < 2) {
+    return s.length;
   }
 
   // 첫번째 문자를 저장하고 시작
