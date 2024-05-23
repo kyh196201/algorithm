@@ -11,3 +11,7 @@
 - [블랙잭](https://www.acmicpc.net/problem/2798) : 브루트 포스
 
 - [완주하지 못한 선수](https://programmers.co.kr/learn/courses/30/lessons/42576) : 해시 테이블
+
+### leetcode
+
+- [longest-repeating-character-replacement](https://leetcode.com/problems/longest-repeating-character-replacement/description) : sliding window
