@@ -59,14 +59,36 @@ function solution(s, t) {
     chars.set(c, chars.get(c) - 1);
   }
 
-  return Array.from(chars.values).every(count => count === 0);
+  return Array.from(chars.values()).every(count => count === 0);
+}
+
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+function solution2(s, t) {
+  const sortedS = Array.from(s)
+    .sort((a, b) => a.localeCompare(b))
+    .join('');
+  const sortedT = Array.from(t)
+    .sort((a, b) => a.localeCompare(b))
+    .join('');
+  return sortedS === sortedT;
 }
 
 describe('valid-anagram', () => {
-  it('test', () => {
+  it('solution 1', () => {
     expect(solution('a', 'b')).toBe(false);
     expect(solution('a', 'bb')).toBe(false);
     expect(solution('anagram', 'nagaram')).toBe(true);
     expect(solution('car', 'cat')).toBe(false);
+  });
+
+  it('solution 2', () => {
+    expect(solution2('a', 'b')).toBe(false);
+    expect(solution2('a', 'bb')).toBe(false);
+    expect(solution2('anagram', 'nagaram')).toBe(true);
+    expect(solution2('car', 'cat')).toBe(false);
   });
 });
