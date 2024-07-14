@@ -93,7 +93,7 @@ function solution2(s) {
       right += 1;
     }
 
-    // 회문의 길이가 짝수인 케이스
+    // 시작하는 회문의 길이가 짝수인 케이스
     // 중앙에 2개의 문자를 하나로 묶어 놓고 회문을 확장
     left = i;
     right = i + 1;
@@ -121,8 +121,9 @@ describe('longest-palindromic-substring', () => {
     expect(solution1('babad')).toBe('bab');
   });
 
-  it.only('test2', () => {
+  it('test2', () => {
     expect(solution2('babad')).toBe('bab');
     expect(solution2('cbbd')).toBe('bb');
+    expect(solution2('abb')).toBe('bb');
   });
 });
