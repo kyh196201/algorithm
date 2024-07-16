@@ -233,7 +233,7 @@ describe('longest-palindromic-substring', () => {
   });
 
   it('test4', () => {
-    expect(['bab', 'aba']).toContain(solution4('babad'));
+    expect(solution4('babad')).toBeOneOf(['bab', 'aba']);
     expect(solution4('cbbd')).toBe('bb');
     expect(solution4('abb')).toBe('bb');
   });
