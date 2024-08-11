@@ -12,6 +12,12 @@
  * 반성
  */
 
+/**
+ *
+ * @param {Array<number>} priorities
+ * @param {number} location
+ * @returns {number}
+ */
 function solution(priorities, location) {
   const executed = [];
 
@@ -40,9 +46,40 @@ function solution(priorities, location) {
   return executed.findIndex(it => it[1] === location) + 1;
 }
 
+/**
+ *
+ * @param {Array<number>} priorities
+ * @param {number} location
+ * @returns {number}
+ */
+function solution2(priorities, location) {
+  const executed = [];
+
+  const queue = priorities.map((property, index) => ({
+    property,
+    isTarget: index === location,
+  }));
+
+  while (queue.length) {
+    const job = queue.shift();
+    if (queue.some(({property}) => property > job.property)) {
+      queue.push(job);
+    } else {
+      executed.push(job);
+    }
+  }
+
+  return executed.findIndex(it => it.isTarget) + 1;
+}
+
 describe('프로세스', () => {
   it('test', () => {
     expect(solution([2, 1, 3, 2], 2)).toBe(1);
     expect(solution([1, 1, 9, 1, 1, 1], 0)).toBe(5);
+  });
+
+  it('test2', () => {
+    expect(solution2([2, 1, 3, 2], 2)).toBe(1);
+    expect(solution2([1, 1, 9, 1, 1, 1], 0)).toBe(5);
   });
 });
