@@ -4,6 +4,7 @@
  * @returns
  */
 function solution(numList) {
+  // 숫자를 1로 만드는데 필요한 연산 횟수 = 2진수 문자열의 길이 - 1
   return numList.reduce((sum, num) => sum + (num.toString(2).length - 1), 0);
 }
 
